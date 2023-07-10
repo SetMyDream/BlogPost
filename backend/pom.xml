@@ -39,6 +39,12 @@
             <version>1.18.24</version>
             <scope>compile</scope>
         </dependency>
+        <!-- Логгер -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
     </dependencies>
 
 

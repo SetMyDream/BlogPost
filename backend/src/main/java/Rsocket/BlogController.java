@@ -1,17 +1,16 @@
 package Rsocket;
 
+import io.rsocket.RSocket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
-public class BlogController {
+public class BlogController implements RSocket {
 
     private final BlogPostRepository blogPostRepository;
 
@@ -26,9 +25,9 @@ public class BlogController {
     }
 
     @MessageMapping("blog.addPost")
-    public Mono<Void> addBlogPost(@Payload BlogPost blogPost) {
+    public BlogPost addBlogPost(@Payload BlogPost blogPost) {
         blogPost.setCreatedAt(LocalDateTime.now());
-        return blogPostRepository.save(blogPost).then();
+        return blogPostRepository.save(blogPost);
     }
 }
 
