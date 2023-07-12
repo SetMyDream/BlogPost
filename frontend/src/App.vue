@@ -6,21 +6,18 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import { Inject } from 'vue-property-decorator';
-import { RSocketService } from './services/RSocketService';
-import PostList from './components/PostList.vue';
+import { defineComponent } from 'vue';
+import { PostPreview, PostList } from './components';
+import PostDetails from './components/PostDetails.vue';
 
-@Options({
+export default defineComponent({
+  name: 'App',
   components: {
+    PostDetails,
+    PostPreview,
     PostList
-  }
-})
-export default class App extends Vue {
-  @Inject('rSocketService') private rSocketService!: RSocketService;
-
-  // Другие методы и свойства компонента
-}
+  },
+});
 </script>
 
 <style scoped>

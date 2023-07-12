@@ -12,7 +12,9 @@
       "skipLibCheck": true,
       "types": [
         "webpack-env",
-        "vite/client"
+        "vite/client",
+        "vue-property-decorator", 
+        "vue"
       ],
       "lib": ["ESNext", "DOM"]
     },

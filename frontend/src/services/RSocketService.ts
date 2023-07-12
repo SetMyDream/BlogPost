@@ -1,20 +1,31 @@
-import { Injectable } from 'vue-property-decorator';
-import { RSocketClient, RSocketResumableTransport } from 'rsocket-core';
+import { RSocketConnector } from "rsocket-core";
+import { TcpClientTransport } from "rsocket-tcp-client";
 
-@Injectable()
-export class RSocketService {
-private client: RSocketClient;
+const connector = new RSocketConnector({
+  transport: new TcpClientTransport({
+    connectionOptions: {
+      host: "127.0.0.1",
+      port: 9090,
+    },
+  }),
+});
 
-constructor() {
-    // Инициализация RSocket клиента
-    const transport = new RSocketResumableTransport({
-      // Настройки транспорта
-    });
-    this.client = new RSocketClient({
-      // Настройки клиента
-      transport
-    });
+const rsocket = await connector.connect();
+
+rsocket.requestResponse(
+  {
+    data: Buffer.from("Hello World"),
+  },
+  {
+    onError: (e) => {
+      console.error(e);
+    },
+    onNext: (payload, isComplete) => {
+      console.log(
+        `payload[data: ${payload.data}; metadata: ${payload.metadata}]|${isComplete}`
+      );
+    },
+    onComplete: () => { },
+    onExtension: () => { },
   }
-
-  // Методы для обмена данными с RSocket сервером
-}
+);
